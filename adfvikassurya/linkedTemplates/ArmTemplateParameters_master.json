@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfvikassurya"
+		},
+		"LS_AzureBlob_Input_connectionString": {
+			"value": ""
+		},
+		"llinkserviceDL_accountKey": {
+			"value": ""
+		},
+		"LinkedGIt_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com"
+		},
+		"llinkserviceDL_properties_typeProperties_url": {
+			"value": "https://sdfvikas.dfs.core.windows.net/"
+		},
+		"CilentTrigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/4a6e2a05-f8d7-486d-8a00-2ee8476402ff/resourceGroups/RG-ADFCourse/providers/Microsoft.Storage/storageAccounts/sdfvikas"
+		},
+		"cilentTriggerNew_properties_typeProperties_scope": {
+			"value": "/subscriptions/4a6e2a05-f8d7-486d-8a00-2ee8476402ff/resourceGroups/RG-ADFCourse/providers/Microsoft.Storage/storageAccounts/sdfvikas"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

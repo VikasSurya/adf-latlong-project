@@ -1,0 +1,104 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adfvikassurya"
+		},
+		"LS_AzureBlob_Input_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_AzureBlob_Input'"
+		},
+		"llinkserviceDL_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'llinkserviceDL'"
+		},
+		"LinkedGIt_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com"
+		},
+		"llinkserviceDL_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sdfvikas.dfs.core.windows.net/"
+		},
+		"CilentTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/4a6e2a05-f8d7-486d-8a00-2ee8476402ff/resourceGroups/RG-ADFCourse/providers/Microsoft.Storage/storageAccounts/sdfvikas"
+		},
+		"cilentTriggerNew_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/4a6e2a05-f8d7-486d-8a00-2ee8476402ff/resourceGroups/RG-ADFCourse/providers/Microsoft.Storage/storageAccounts/sdfvikas"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adfvikassurya_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_AzureBlob_Input_connectionString": {
+						"value": "[parameters('LS_AzureBlob_Input_connectionString')]"
+					},
+					"llinkserviceDL_accountKey": {
+						"value": "[parameters('llinkserviceDL_accountKey')]"
+					},
+					"LinkedGIt_properties_typeProperties_url": {
+						"value": "[parameters('LinkedGIt_properties_typeProperties_url')]"
+					},
+					"llinkserviceDL_properties_typeProperties_url": {
+						"value": "[parameters('llinkserviceDL_properties_typeProperties_url')]"
+					},
+					"CilentTrigger_properties_typeProperties_scope": {
+						"value": "[parameters('CilentTrigger_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "adfvikassurya_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"cilentTriggerNew_properties_typeProperties_scope": {
+						"value": "[parameters('cilentTriggerNew_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adfvikassurya_ArmTemplate_0')]"
+			]
+		}
+	]
+}
