@@ -1,0 +1,9 @@
+{
+	"name": "adfvikassurya",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ce55f65e-d338-45bf-ae17-a28d8819e068",
+		"tenantId": "3a5b2df9-0a43-4f89-b99a-62de7d9c04aa"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "CilentTrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/source/blobs/csvfiles/Fact_sales_1.csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/4a6e2a05-f8d7-486d-8a00-2ee8476402ff/resourceGroups/RG-ADFCourse/providers/Microsoft.Storage/storageAccounts/sdfvikas",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

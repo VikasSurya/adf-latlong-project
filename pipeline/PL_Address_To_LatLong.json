@@ -1,0 +1,146 @@
+{
+	"name": "PL_Address_To_LatLong",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "DS_Input_Address_CSV",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Web1",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "GET",
+								"url": {
+									"value": "https://maps.googleapis.com/maps/api/geocode/json?address=@{encodeUriComponent(item().Address)}&key=AIzaSyDeRJnTg25QfX1caWm3wDXO50WkvlvA3I0",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set_LatLong",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Web1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "LatLong",
+								"value": {
+									"value": "@concat(\n    string(activity('Web1').output.results[0].geometry.location.lat),\n    ',',\n    string(activity('Web1').output.results[0].geometry.location.lng)\n)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Write_LatLong_File",
+							"type": "WebActivity",
+							"dependsOn": [
+								{
+									"activity": "Set_LatLong",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "PUT",
+								"headers": {
+									"x-ms-blob-type": "BlockBlob"
+								},
+								"url": {
+									"value": "https://sdfvikas.blob.core.windows.net/output/latlong_@{replace(item().Address,' ','_')}.txt?sp=rcw&st=2026-02-25T14:45:29Z&se=2026-03-05T23:00:29Z&spr=https&sv=2024-11-04&sr=c&sig=W896j2ZRxdmhROuMFRjN0GZ0exZP5vYceFxvjgethc0%3D",
+									"type": "Expression"
+								},
+								"body": {
+									"value": "@variables('LatLong')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"LatLong": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-02-25T15:10:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

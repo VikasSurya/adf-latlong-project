@@ -1,0 +1,25 @@
+{
+	"name": "cilentTriggerNew",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipelinemanager",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/source/blobs/csvfiles",
+			"blobPathEndsWith": "Fact_Sales_1.csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/4a6e2a05-f8d7-486d-8a00-2ee8476402ff/resourceGroups/RG-ADFCourse/providers/Microsoft.Storage/storageAccounts/sdfvikas",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
